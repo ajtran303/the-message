@@ -1,3 +1,7 @@
+-- AI tools used in development:
+-- Claude (Anthropic) - design planning, specifications, code generation
+-- All game design, architecture, and creative decisions by Jamie "AJ" Tran
+
 -- Add src/ to require path
 love.filesystem.setRequirePath("src/?.lua;src/?/init.lua;" .. love.filesystem.getRequirePath())
 
