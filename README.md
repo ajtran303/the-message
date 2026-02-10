@@ -39,6 +39,8 @@ The game code is in `game/src/`, assets are in `game/assets/`, and build tools a
 
 **`spikes.lua`** creates the background scenery. Dark triangular spikes stick up from the ground, and they get taller, denser, and more visible the further right you go. Near the start of the game you can barely see them, but by the end they fill up most of the background. Each spike is placed with a little bit of random offset so they don't look too uniform.
 
+**`environment.lua`** adds atmospheric detail to the world. It manages four effects: stars in the sky that twinkle and gradually fade out as you visit campfires, dust particles that drift across the screen and get thicker as you progress, a warm orange ground glow beneath each unvisited campfire, and cracks in the ground that appear in the later part of the world and get denser toward the center. All four effects reinforce the feeling that the world is getting worse the further right you go. By the ending, the sky is empty and the ground is fractured.
+
 ### Shader
 
 **`assets/shaders/uber.glsl`** is a single shader file that handles all five visual effects. It takes in six numbers (one for each effect plus a time value for animation) and applies them all in one pass. The effects are: rotating the hue of every pixel, darkening the edges of the screen, pulling colors toward gray, splitting the red/green/blue channels apart, and wobbling the whole image with a wave pattern. Once an effect is turned on, it never turns off. By the end of the game, all five are stacked on top of each other.

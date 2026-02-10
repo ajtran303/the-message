@@ -12,6 +12,7 @@ local symbols = require("symbols")
 local glyphs = require("glyphs")
 local postfx = require("postfx")
 local spikes = require("spikes")
+local environment = require("environment")
 local audio = require("audio")
 
 local GROUND_Y = 0
@@ -73,6 +74,7 @@ local function resetGame()
 	player.reset()
 	campfires.reset()
 	symbols.reset()
+	environment.reset()
 	audio.stopAll()
 	cameraX = 0
 	activeCampfire = nil
@@ -86,6 +88,7 @@ function love.load()
 	glyphs.load()
 	postfx.load()
 	spikes.load(GROUND_Y)
+	environment.load(GROUND_Y)
 	audio.load()
 	titleFont = love.graphics.newFont(48)
 	promptFont = love.graphics.newFont(18)
@@ -132,6 +135,9 @@ function love.load()
 			local movingLeft = love.keyboard.isDown("left", "a")
 			audio.updateFootsteps(dt, movingRight or movingLeft, movingRight)
 
+			local progress = (symbols.getProgress().campfireIndex - 1) / 5
+			environment.update(dt, cameraX, progress)
+
 			local idx = campfires.checkProximity(player.x)
 			if idx then
 				activeCampfire = idx
@@ -142,8 +148,13 @@ function love.load()
 			updateTip(dt)
 		end,
 		draw = function()
+			local progress = (symbols.getProgress().campfireIndex - 1) / 5
+			local time = love.timer.getTime()
 			drawWorld()
+			environment.drawGround(cameraX, progress)
+			environment.drawSky(cameraX, progress, time)
 			spikes.draw(cameraX)
+			environment.drawCampfireGlow(cameraX, campfires.getList())
 			campfires.draw(cameraX)
 			player.draw(cameraX)
 			drawTip()
@@ -158,6 +169,8 @@ function love.load()
 
 	states.register("transition", {
 		update = function(dt)
+			local progress = (symbols.getProgress().campfireIndex - 1) / 5
+			environment.update(dt, cameraX, progress)
 			transitionTimer = transitionTimer - dt
 			if transitionTimer <= 0 then
 				if activeCampfire >= 5 then
@@ -171,8 +184,13 @@ function love.load()
 			end
 		end,
 		draw = function()
+			local progress = (symbols.getProgress().campfireIndex - 1) / 5
+			local time = love.timer.getTime()
 			drawWorld()
+			environment.drawGround(cameraX, progress)
+			environment.drawSky(cameraX, progress, time)
 			spikes.draw(cameraX)
+			environment.drawCampfireGlow(cameraX, campfires.getList())
 			campfires.draw(cameraX)
 			player.draw(cameraX)
 		end,
@@ -180,13 +198,17 @@ function love.load()
 
 	states.register("center", {
 		update = function(dt)
+			environment.update(dt, cameraX, 1)
 			if centerFade < 1 then
 				centerFade = math.min(1, centerFade + dt / CENTER_FADE_DURATION)
 			end
 			audio.updateCenter(dt)
 		end,
 		draw = function()
+			local time = love.timer.getTime()
 			drawWorld()
+			environment.drawGround(cameraX, 1)
+			environment.drawSky(cameraX, 1, time)
 			spikes.draw(cameraX)
 			campfires.draw(cameraX)
 			player.draw(cameraX)
@@ -204,10 +226,18 @@ function love.load()
 	})
 
 	states.register("campfire", {
-		update = function(dt) end,
+		update = function(dt)
+			local progress = (symbols.getProgress().campfireIndex - 1) / 5
+			environment.update(dt, cameraX, progress)
+		end,
 		draw = function()
+			local progress = (symbols.getProgress().campfireIndex - 1) / 5
+			local time = love.timer.getTime()
 			drawWorld()
+			environment.drawGround(cameraX, progress)
+			environment.drawSky(cameraX, progress, time)
 			spikes.draw(cameraX)
+			environment.drawCampfireGlow(cameraX, campfires.getList())
 			campfires.draw(cameraX)
 			player.draw(cameraX)
 			glyphs.draw(symbols.getActive(), symbols.getSelected())
