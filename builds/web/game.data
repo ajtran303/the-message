@@ -317,6 +317,7 @@ function love.load()
 
 	states.register("transition", {
 		update = function(dt)
+			updateTip(dt)
 			transitionTimer = transitionTimer - dt
 			if transitionTimer <= 0 then
 				if activeCampfire >= 5 then
