@@ -7,8 +7,9 @@ function spikes.load(playerGroundY)
 	groundY = playerGroundY
 	list = {}
 
-	local worldEnd = 2700
-	local x = 100
+	local screenW = love.graphics.getWidth()
+	local worldEnd = screenW * 13
+	local x = screenW * 0.5
 
 	while x < worldEnd do
 		-- Progress 0..1 across the world

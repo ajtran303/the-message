@@ -1,8 +1,6 @@
 local campfires = {}
 
 local PROXIMITY = 40
-local BASE_UNIT = 200
-local START_X = 300
 
 -- Fibonacci spacing: 1, 1, 2, 3, 5
 local SPACING = {1, 1, 2, 3, 5}
@@ -13,12 +11,13 @@ local elapsed = 0
 
 function campfires.load(playerGroundY)
 	groundY = playerGroundY
-	local x = START_X
+	local screenW = love.graphics.getWidth()
+	local x = screenW
 	list = {}
 	for i = 1, 5 do
 		list[i] = { x = x, visited = false }
 		if i < 5 then
-			x = x + SPACING[i + 1] * BASE_UNIT
+			x = x + SPACING[i + 1] * screenW
 		end
 	end
 end
