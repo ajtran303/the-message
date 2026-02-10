@@ -158,7 +158,6 @@ function love.load()
 
 	states.register("transition", {
 		update = function(dt)
-			updateTip(dt)
 			transitionTimer = transitionTimer - dt
 			if transitionTimer <= 0 then
 				if activeCampfire >= 5 then
@@ -205,9 +204,7 @@ function love.load()
 	})
 
 	states.register("campfire", {
-		update = function(dt)
-			updateTip(dt)
-		end,
+		update = function(dt) end,
 		draw = function()
 			drawWorld()
 			spikes.draw(cameraX)
@@ -221,6 +218,7 @@ function love.load()
 				audio.playClick()
 				symbols.confirm(activeCampfire)
 				campfires.markVisited(activeCampfire)
+				currentTip = nil
 				transitionTimer = TRANSITION_DURATION
 				states.set("transition")
 			elseif key == "escape" then
