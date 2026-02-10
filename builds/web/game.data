@@ -1089,12 +1089,12 @@ function spikes.load(playerGroundY)
 		local gap = 120 - 100 * t * t
 
 		-- Height increases toward center
-		local minH = 10 + 80 * t
-		local maxH = 30 + 200 * t
+		local minH = 20 + 120 * t
+		local maxH = 60 + 300 * t
 		local h = minH + math.random() * (maxH - minH)
 
 		-- Width narrows slightly toward center
-		local w = 4 + math.random() * 6 * (1 - t * 0.5)
+		local w = 6 + math.random() * 10 * (1 - t * 0.5)
 
 		-- Slight horizontal jitter
 		local jitter = (math.random() - 0.5) * gap * 0.3
@@ -1103,8 +1103,8 @@ function spikes.load(playerGroundY)
 			x = x + jitter,
 			height = h,
 			width = w,
-			-- Fade in: barely visible early, solid late
-			alpha = 0.1 + 0.6 * t,
+			-- Fade in: visible early, solid late
+			alpha = 0.25 + 0.65 * t,
 		}
 
 		x = x + gap + math.random() * gap * 0.5
@@ -1118,7 +1118,7 @@ function spikes.draw(cameraX)
 		local sx = s.x - cameraX
 		-- Cull offscreen
 		if sx > -s.width and sx < screenW + s.width then
-			love.graphics.setColor(0.12, 0.08, 0.1, s.alpha)
+			love.graphics.setColor(0.05, 0.02, 0.05, s.alpha)
 			-- Triangle spike rising from ground
 			love.graphics.polygon("fill",
 				sx - s.width / 2, groundY,
