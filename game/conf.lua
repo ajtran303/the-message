@@ -9,7 +9,7 @@ end
 
 -- https://love2d.org/wiki/Config_Files
 function love.conf(t)
-	t.identity              = nil
+	t.identity              = "the-message"
 	t.appendidentity        = false
 	t.version               = "11.4"
 	t.console               = false
@@ -20,7 +20,7 @@ function love.conf(t)
 	t.audio.mic             = false
 	t.audio.mixwithsystem   = true
 
-	t.window.title          = "Untitled"
+	t.window.title          = "The Message"
 	t.window.icon           = nil
 	t.window.width          = 800
 	t.window.height         = 600
